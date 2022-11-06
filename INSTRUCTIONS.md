@@ -56,5 +56,5 @@ Follow the same steps as the previous section. However, instead of 2 copies of t
 
 ### **Notes**
 
-You may delete/switch over which `uantum.slx`file you would like Quantum to read from next, a few heats before you need it, as long as you DO NOT refresh the start list until immediately before you need it.
+You may delete/switch over which `quantum.slx` file you would like Quantum to read from next, a few heats before you need it, as long as you DO NOT refresh the start list until immediately before you need it.
 
