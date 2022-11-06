@@ -7,6 +7,7 @@ This tool bypasses this bug by eliminating Relay Team Names from the startlist, 
 This tool does the equivalent of unseeding relays on the Start List level, allowing the Clerk of Course to seed relays in HyTek without affecting team name displays.<br>
 After running the script, Relay Team Name format will work normally and will not affect Team Names. Recommended Relay Team Name format is `Abbr-A`. 
 
+**Please see `Instructions.md` for the latest set of instructions.**
 ## Instructions
 - Download and unzip the release package.
 - Place **the folder containing** `removerelays.exe` into the Quantum Data Set directory (i.e. the directory containing `quantum.slx`)
