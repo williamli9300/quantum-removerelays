@@ -1,60 +1,76 @@
-# **INSTRUCTIONS: Video Board Relay Name Bug Workaround**
-
-### **Background:**
-
-You may have seen the bug where some swimmers’ Team Names show up as their Relay Name (e.g. VPSC-A, UBCT-B, RAPID-A, etc.) instead of the proper Team Name (VPSC, UBCT, RAPID, etc.) This is because of a bug where, when Quantum reads a start list file, it interprets the Relay Name (VPSC-A etc.) as the Team Name when it generates an athlete list. Here, we describe a workaround using a script that automatically removes relays from the start list.
-
-### **Relay Blocks**
-
-Before you begin, you should determine what your Relay Blocks are going to be.
-
-Here, a “relay block” is defined to mean a block of consecutive relays with no individual events between them, where each relay swimmer will only swim once (i.e. is only on one relay team within the block). 
-
-For example: In a session with Events 1-10, if E1-4 are all relays, and 5-10 are all individual events, then Events 1-4 is considered a “block of consecutive relays”.
-
-Ideally, a relay block should only contain 2 events if each event is a gender-separated relay, or 1 event if it’s a mixed relay. If you have four events in two different age groups (e.g. F12&U, M12&U, F13&O, M13&O) for the same type of relay, it is acceptable to group these four events into a single relay block, although younger swimmers swimming in both age groups may display incorrectly if they are on, for example, Relay A for one, and Relay B for another.
-
-Determine how many relay blocks you will have, and when they will occur.
-
-### **Quantum Logic**
-
-The Quantum software reads the file called `quantum.slx` in the path specified in your DH I/O. 
-
-### **Setup in HyTek**
-
-In Interfaces > Scoreboard > Customize, You should select “Abbr.-A” as the Relay Name format.
-
-### **Downloading the Script**
-
-1. Visit <https://github.com/williamli9300/quantum-removerelays/releases/tag/release> and download `RemoveRelaysScript.zip`.
-1. Right Click the zip file and extract to `\Downloads\RemoveRelaysScript\`.
-1. In HyTek SwMM8.0, push the Start List (quantum.slx) to the Quantum folder.
-1. Drag the folder `\RemoveRelaysScript\` into the folder containing `quantum.slx`.
-1. Make a copy of the existing quantum.slx and rename it to `quantum_copy.slx`.
-1. Open the folder `\RemoveRelaysScript\` that’s in the Quantum folder and run `removerelays.exe`. This will remove all relays the file named quantum.slx. We will call this the “relayless” `quantum.slx`.
-**
+# Relay Removal Script for Quantum-AQ
+#### by William Li | [https://github.com/williamli9300/quantum-removerelays](https://github.com/williamli9300/quantum-removerelays) | v1.0 release
+For use with SwissTiming Quantum-AQ and start list files (`quantum.slx`) created by HyTek Meet Manager 8.0. Creates `*.slx` files with Relay events removed, to overcome Team Name bug on some video boards.
 
 
-### **Sessions with One Block of Consecutive Relays**
+## Table of Contents
+1. [Use Case](#usecase)
+2. [Installation Instructions](#installation)
+3. [Usage Instructions](#usage)
+4. [Note on Re-Pushing Start Lists](#repush)
 
-In sessions with one block of relays (e.g. in a session with events 1-10, Events 1-4 are all relays, and 5-10 are all individual), this is how to work around the issue:
+Disclaimer: As per the included License, the author of this script offers no warranty and disclaims all responsibility and/or liability for incidents relating to the use of this script. This script has been tested with real Quantum start lists before being published; however, you use this software at your own risk. Please ensure that qualified, technologically literate Quantum operators are present to supervise the process. 
 
-1. If the Relay Block is at the end of the session:
-   1. Ensure that your relayless `quantum.slx` is named `quantum.slx`.
-   1. Right click on `quantum_copy.slx`, and open with Notepad. Delete all events before and after your Relay Block. Lines that start with a number are Events/Heats, while lines starting with semicolons denote lanes/swimmers. For example, if your relay is Event 21-22, find the line that starts with “21;1” or otherwise implies the E21H1 (the first line starting with “21”, and delete everything before that. Then find the line that starts with “23;1” or otherwise implies E23H1 (the first line starting with “23”) and delete that line and everything after it. Press `Ctrl + S` to save.
-   1. Refresh the Start List in Quantum software, then proceed with individual events. 
-   1. Right before relays start, delete the relayless `quantum.slx`, and rename `quantum_copy.slx` back to quantum.slx. 
-1. If the Relay Block is at the beginning of the session:
-   1. Rename the relayless quantum.slx to `quantum_norelays.slx`.
-   1. Right click on `quantum_copy.slx` and open with Notepad. Delete all events before and after your Relay Block. Lines that start with a number are Events/Heats, while lines starting with semicolons denote lanes/swimmers. For example, if your relay is Event 21-22, find the line that starts with “21;1” or otherwise implies the E21H1 (the first line starting with “21”, and delete everything before that. Then find the line that starts with “23;1” or otherwise implies E23H1 (the first line starting with “23”) and delete that line and everything after it. Press `Ctrl + S` to save, then rename `quantum_copy.slx` to quantum.slx.
-   1. Refresh the start list.
-   1. After relays are done, delete quantum.slx (the one with only relays and nothing else). Then, rename `quantum_norelays.slx` back to quantum.slx. Refresh the start list again.
+Feedback is welcome! Please feel free to report any bugs, issues, and/or communicate feature requests or other forms of feedback to the author of the script.
 
-### **Sessions with More than One Block of Consecutive Relays**
+## Use Case <a name="usecase"></a>
+On some video boards (e.g. UBC Aquatic Centre, TPASC), a bug in the way that the Quantum-AQ Software reads start lists can causes the Team Name/Nationality field to show up incorrectly during individual events, i.e. as a Relay Name (e.g. `RELAY-A`, `TEAM-A`, etc.)
 
-Follow the same steps as the previous section. However, instead of 2 copies of the start list, you will need (N+1) copies, where N is the number of Relay Blocks you will have. You will need 1 “relayless” copy. This can be done by executing removerelays.exe while you still have a clean, untouched `quantum.slx` in your Quantum folder. Then, you will need a copy of `quantum.slx` for each relay block, containing only the heats of each relay block, as per 7B and 8B. 
+This tool bypasses this bug by eliminating Relay Team Names from the startlist, preventing the software from confusing Team Names and Relay Team Names.  
 
-### **Notes**
+This tool does the equivalent of unseeding relays on the Start List level, allowing the Clerk of Course to seed relays in HyTek without affecting team name displays.  
 
-You may delete/switch over which `quantum.slx` file you would like Quantum to read from next, a few heats before you need it, as long as you DO NOT refresh the start list until immediately before you need it.
+After running the script, Relay Team Name format will work normally and will not affect Team Names/Nationality. Recommended Relay Team Name format (can be changed under `Run > Interfaces > Scoreboard > Customize` in Hy-Tek SwMM8) is `Abbr-A`.
+## Installation Instructions <a name="installation"></a>
+- Download and unzip the release package.
+- Place **the folder containing** `removerelays.exe` into the Quantum Data Set directory (i.e. into the folder containing `quantum.slx`)
+  - The script is designed to work on the parent directory. For example, if your QAQF Data Set is in `C:\Quantum DB\Race1\`, the application should be found at `C:\Quantum DB\Race1\RemoveRelaysScript\removerelays.exe`. 
+  - The executable application requires the other files in the folder to work, so make sure to move the entire folder! 
+- At the beginning of the session, double-click `removerelays.exe` to run the script. You may need to give the app permission to "Run Anyway".
+## Usage Instructions <a name="usage"></a>
+**NOTE: Instructions are provided when you run the script.**
+ Follow the on-screen prompt to select the format of your session by entering a number from 1 to 5, then hit "Enter".
 
+- **Use Case 1: Relays then Events**
+  - Before the first event: Rename the file `quantum_1HasRelays.slx` into `quantum.slx`. Refresh the start list.
+  - During the last few heats of relays, delete the file now named `quantum.slx` (previously `quantum_1HasRelays.slx`), then rename the file `quantum_2NoRelays.slx` into `quantum.slx`.
+  - Refresh the start list again after all relays have finished, right before the start of individual events.
+
+- **Use Case 2: Events then Relays**
+  - Before the first event: Rename the file `quantum_1NoRelays.slx` into `quantum.slx`. Refresh the start list.
+  - During the last few heats of relays, delete the file now named `quantum.slx` (previously `quantum_1NoRelays.slx`), then rename the file `quantum_2HasRelays.slx` into `quantum.slx`.
+  - Refresh the start list again after all relays have finished, right before the start of individual events.
+
+- **Use Case 3: Relays, Events, Relays**
+  - Before the first event: Rename the file `quantum_1HasRelays.slx` into `quantum.slx`. Refresh the start list.
+  - During the last few heats of the first block of relays, delete the file now named `quantum.slx` (previously `quantum_1HasRelays.slx`), then rename the file `quantum_2NoRelays.slx` into `quantum.slx`.
+  - Refresh the start list again after the first block of relays, right before the start of individual events.
+  - During the last few heats of individual events, delete the file now named `quantum.slx` (previously `quantum_2NoRelays.slx`), then rename the file `quantum_3HasRelays.slx` into `quantum.slx`.
+  - Refresh the start list again after all the individual events have finished, right before the start of the last block of relay events.
+- **Use Case 4: Events, Relays, Events**
+  - Before the first event: Rename the file `quantum_1NoRelays.slx` into `quantum.slx`. Refresh the start list.
+  - During the last few heats of individual events before relays, delete the file now named `quantum.slx` (previously `quantum_1NoRelays.slx`), then rename the file `quantum_2HasRelays.slx` into `quantum.slx`.
+  - Refresh the start list again after the first block of individual events have finished, right before the start of relay events.
+  - During the last few heats of relay events, delete the file now named `quantum.slx` (previously `quantum_2HasRelays.slx`), then rename the file `quantum_3NoRelays.slx` into `quantum.slx`.
+  - Refresh the start list again after all the relay events have finished, right before the start of the last block of individual events.
+
+- **Use Case 5: Other Format/Manual Usage**
+  - In the folder containing `quantum.slx`, there are now two new files:  one called `quantum_NoRelays.slx` and one called `quantum_HasRelays.slx`. 
+  - If your session starts with relays: 
+    - Rename the file `quantum_HasRelays.slx` into `quantum.slx`. Refresh the start list.
+  - If your session starts with individual events: 
+    - Rename the file `quantum_NoRelays.slx` into `quantum.slx`. Refresh the start list.
+  - A few heats before you change from relays to individual events or vice versa:
+    - Rename `quantum.slx` back into its original name, either `quantum_HasRelays.slx` or `quantum_NoRelays.slx`.
+    - Rename the other file (the one you have not yet renamed) into `quantum.slx`.
+    -  Refresh the start list right before you need the new list.
+    - Repeat these steps each time there is a switch between individual events and relays.
+
+## Note on Re-Pushing Start Lists <a name="repush"></a>
+**NOTE:** Pushing a new Start List from Quantum overwrites the current `quantum.slx` file in the Quantum directory. This does not affect anything on the Quantum's end until the Start List is refreshed. 
+
+**NOTE:** If you need a fresh start list, please DELETE ALL FILES WITH THE `*.slx` EXTENSION FIRST, THEN RE-PULL FROM HY-TEK. 
+
+**If you need to re-push a start-list, it is recommended that you re-run the script, unless you are confident in your ability to quickly re-organize the files manually.**
+
+It is recommended to make a copy of the new start list in the Quantum directory and name it `quantum_NEW.slx`.
