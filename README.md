@@ -26,7 +26,7 @@ After running the script, Relay Team Name format will work normally and will not
 ## Installation Instructions <a name="installation"></a>
 - Download and unzip the release package.
 - Place **the folder containing** `removerelays.exe` into the Quantum Data Set directory (i.e. into the folder containing `quantum.slx`)
-  - The script is designed to work on the parent directory. For example, if your QAQF Data Set is in `C:\Quantum DB\Race1\`, the application should be found at `C:\Quantum DB\Race1\RemoveRelaysScript\removerelays.exe`. 
+  - The script is designed to work **in the same directory as the start list file**. For example, if your QAQF Data Set is in `C:\Quantum DB\Race1\`, the application should be found at `C:\Quantum DB\Race1\removerelays.exe`. 
   - The executable application requires the other files in the folder to work, so make sure to move the entire folder! 
 - At the beginning of the session, double-click `removerelays.exe` to run the script. You may need to give the app permission to "Run Anyway".
 ## Usage Instructions <a name="usage"></a>
