@@ -1,5 +1,10 @@
-# Relay Removal Script for Quantum-AQ
+# Relay Removal Script for Quantum-AQ [DEPRECATED]
 #### by William Li | [https://github.com/williamli9300/quantum-removerelays](https://github.com/williamli9300/quantum-removerelays) | v1.0 release
+
+WARNING: This script is now DEPRECATED. It is succeeded by the **Meet Manager 8 Relay Fix** tool, found here: [https://github.com/williamli9300/SwMM8RelayFix](https://github.com/williamli9300/SwMM8RelayFix)
+
+A list of improvements found in the NEW script (see link above) can be found [here](https://github.com/williamli9300/SwMM8RelayFix/blob/main/README.md#changes).
+
 For use with SwissTiming Quantum-AQ and start list files (`quantum.slx`) created by HyTek Meet Manager 8.0. Creates `*.slx` files with Relay events removed, to overcome Team Name bug on some video boards.
 
 
