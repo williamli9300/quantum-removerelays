@@ -1,4 +1,4 @@
-# Relay Removal Script for Quantum-AQ [DEPRECATED]
+# [DEPRECATED] Relay Removal Script for Quantum-AQ 
 #### by William Li | [https://github.com/williamli9300/quantum-removerelays](https://github.com/williamli9300/quantum-removerelays) | v1.0 release
 
 WARNING: This script is now DEPRECATED. It is succeeded by the **Meet Manager 8 Relay Fix** tool, found here: [https://github.com/williamli9300/SwMM8RelayFix](https://github.com/williamli9300/SwMM8RelayFix)
